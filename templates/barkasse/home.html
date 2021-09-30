@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Willkommen</h1>
+<p>Was möchtest du tun?</p>
+<ul>
+  <li><a href="{% url 'barkasse:transaction_create' %}">Transaktion hinzufügen</a></li>
+  <li><a href="{% url 'barkasse:transactions' %}">Transaktionen Übersicht</a></li>
+  <li><a href="{% url 'barkasse:accounts' %}">Konten verwalten</a></li>
+  <li><a href="{% url 'barkasse:shops' %}">Shops verwalten</a></li>
+  <li><a href="{% url 'logout' %}">Ausloggen</a></li>
+</ul>
+
+{% endblock %}

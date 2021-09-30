@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Konto löschen</h1>
+
+<p>Willst du das Konto '{{ account }}' und alle Transaktionen davon wirklich löschen?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Ja, löschen.">
+</form>
+
+{% endblock %}

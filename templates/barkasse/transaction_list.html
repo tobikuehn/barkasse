@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Transaktionen</h1>
+  {% if transaction_list %}
+  <table class="table table-striped">
+  <tbody>
+    {% for transaction in transaction_list %}
+      <tr>
+        <td>
+          {{ transaction.date }}
+        </td>
+        <td>
+          <strong>{{ transaction.shop }}</strong>
+        </td>
+        <td>
+          {{ transaction.title }}
+        </td>
+        <td>
+          {{ transaction.account }}
+        </td>
+        <td>
+          {{ transaction.amount }}
+        </td>
+        <td>
+          <a href="{% url 'barkasse:transaction_update' transaction.id %}">Update</a> |
+          <a href="{% url 'barkasse:transaction_delete' transaction.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>Keine Transaktionen vorhanden.</p>
+  {% endif %}
+  <p>
+    <a href="{% url 'barkasse:transaction_create' %}">Transaktion hinzufügen</a> | <a href="{% url 'barkasse:home' %}">Startseite</a>
+  </p>
+{% endblock %}

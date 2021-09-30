@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Transaktion löschen</h1>
+
+<p>Willst du die Transaktion mit {{ transaction.amount }} Franken vom {{ transaction.date }} in '{{ transaction.shop }}' wirklich löschen?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Ja, löschen.">
+</form>
+
+{% endblock %}

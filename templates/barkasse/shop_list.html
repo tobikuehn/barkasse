@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Shopliste</h1>
+  {% if shop_list %}
+  <table class="table table-striped">
+  <tbody>
+    {% for shop in shop_list %}
+      <tr>
+        <td>
+          {{ shop.name }}
+        </td>
+        <td>
+          <a href="{% url 'barkasse:shop_update' shop.id %}">Update</a> |
+          <a href="{% url 'barkasse:shop_delete' shop.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>Keine Shops vorhanden.</p>
+  {% endif %}
+  <p>
+    <a href="{% url 'barkasse:shop_create' %}">Shop hinzufügen</a> | <a href="{% url 'barkasse:home' %}">Startseite</a>
+  </p>
+{% endblock %}

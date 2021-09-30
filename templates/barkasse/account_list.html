@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Kontenliste</h1>
+  {% if account_list %}
+  <table class="table table-striped">
+  <tbody>
+    {% for account in account_list %}
+      <tr>
+        <td>
+          <strong>{{ account.name }}</strong> ({{ account.comment }})
+        </td>
+        <td>
+          <a href="{% url 'barkasse:account_update' account.id %}">Update</a> |
+          <a href="{% url 'barkasse:account_delete' account.id %}">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>Keine Konten vorhanden.</p>
+  {% endif %}
+  <p>
+    <a href="{% url 'barkasse:account_create' %}">Konto hinzufügen</a> | <a href="{% url 'barkasse:home' %}">Startseite</a>
+  </p>
+{% endblock %}

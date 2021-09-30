@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Shop löschen</h1>
+
+<p>Willst du den Shop '{{ shop }}' wirklich löschen?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Ja, löschen.">
+</form>
+
+{% endblock %}
