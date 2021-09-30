@@ -2,12 +2,13 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
+<h1>Konto hinzufügen/bearbeiten</h1>
   <form action="" method="post">
     {% csrf_token %}
     <table>
     {{ form|crispy }}
     </table>
-    <input type="submit" value="Speichern">
-    <input type="submit" onclick="window.location='{% url 'barkasse:accounts' %}' ; return false;" value="Abbrechen">
+    <input class="btn btn-primary" type="submit" value="Speichern">
+    <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:accounts' %}' ; return false;" value="Abbrechen">
   </form>
 {% endblock %}

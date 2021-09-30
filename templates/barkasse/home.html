@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Willkommen</h1>
+<h1>Barkasse</h1>
 
 
 
 <h2>Aktuelle Transaktionen</h2>
   {% if transaction_list %}
   <table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th>Datum</th>
+      <th>Ort</th>
+      <th>Betrag</th>
+      </tr>
+    </thead>
   <tbody>
     {% for transaction in transaction_list %}
       <tr>
@@ -17,13 +24,7 @@
         <td>
           <strong>{{ transaction.shop }}</strong>
         </td>
-        <td>
-          {{ transaction.title }}
-        </td>
-        <td>
-          {{ transaction.account }}
-        </td>
-        <td class="text-end">
+        <td class="text-right">
           {{ transaction.amount|floatformat:2 }}
         </td>
       </tr>
@@ -34,13 +35,13 @@
     <p>Keine Transaktionen vorhanden.</p>
   {% endif %}
 
-<h2>Was möchtest du tun?</h2>
-<ul>
-  <li><a href="{% url 'barkasse:transaction_create' %}">Transaktion hinzufügen</a></li>
-  <li><a href="{% url 'barkasse:transactions' %}">Transaktionen bearbeiten</a></li>
-  <li><a href="{% url 'barkasse:accounts' %}">Konten verwalten</a></li>
-  <li><a href="{% url 'barkasse:shops' %}">Shops verwalten</a></li>
-  <li><a href="{% url 'logout' %}">Ausloggen</a></li>
+<a href="{% url 'barkasse:transaction_create' %}" class="btn btn-primary btn-block" role="button">Transaktion hinzufügen</a>
+
+<ul class="nav justify-content-center">
+  <li class="nav-item"><a href="{% url 'barkasse:transactions' %}" class="nav-link">Transaktionen</a></li>
+  <li class="nav-item"><a href="{% url 'barkasse:shops' %}" class="nav-link">Shops</a></li>
+  <li class="nav-item"><a href="{% url 'barkasse:accounts' %}" class="nav-link">Konten</a></li>
+  <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Ausloggen</a></li>
 </ul>
 
 {% endblock %}

@@ -5,6 +5,16 @@
   {% if transaction_list %}
   <table class="table table-striped">
   <tbody>
+   <thead class="thead-dark">
+    <tr>
+      <th>Datum</th>
+      <th>Bezeichnung</th>
+      <th>Konto</th>
+      <th>Ort</th>
+      <th>Betrag</th>
+      <th></th>
+      </tr>
+    </thead>
     {% for transaction in transaction_list %}
       <tr>
         <td>
@@ -19,7 +29,7 @@
         <td>
           {{ transaction.account }}
         </td>
-        <td class="text-end">
+        <td class="text-right">
           {{ transaction.amount|floatformat:2 }}
         </td>
         <td>
