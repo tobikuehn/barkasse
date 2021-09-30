@@ -8,7 +8,7 @@
     {% for transaction in transaction_list %}
       <tr>
         <td>
-          {{ transaction.date }}
+          {{ transaction.date|date:'d.m.Y' }}
         </td>
         <td>
           <strong>{{ transaction.shop }}</strong>
@@ -19,8 +19,8 @@
         <td>
           {{ transaction.account }}
         </td>
-        <td>
-          {{ transaction.amount }}
+        <td class="text-end">
+          {{ transaction.amount|floatformat:2 }}
         </td>
         <td>
           <a href="{% url 'barkasse:transaction_update' transaction.id %}">Update</a> |

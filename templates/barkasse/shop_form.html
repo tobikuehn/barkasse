@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load crispy_forms_tags %}
   <form action="" method="post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
+    {{ form|crispy }}
     <input type="submit" value="Speichern">
     <input type="submit" onclick="window.location='{% url 'barkasse:shops' %}' ; return false;" value="Abbrechen">
   </form>

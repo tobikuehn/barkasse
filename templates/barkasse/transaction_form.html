@@ -1,12 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <form action="" method="post">
+
+{% load crispy_forms_tags %}
+
+<h1>Transaktion hinzufügen/bearbeiten</h1>
+
+<form action="" method="post">
     {% csrf_token %}
-    <table>
-    {{ form.as_table }}
-    </table>
-    <input type="submit" value="Speichern">
-    <input type="submit" onclick="window.location='{% url 'barkasse:transactions' %}' ; return false;" value="Abbrechen">
+    {{ form|crispy }}
+
+  <button type="submit" class="btn btn-primary" value="Speichern">Speichern</button>
+  <button type="submit" class="btn btn-secondary" onclick="window.location='{% url 'barkasse:transactions' %}' ; return false;" value="Abbrechen">Abbrechen</button>
   </form>
 {% endblock %}
+
+

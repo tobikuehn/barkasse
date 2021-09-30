@@ -13,14 +13,15 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
-class HomeView(LoginRequiredMixin, View):
-    def get(self, request):
-        cntx = { 'cat_list': 0 }
-        return render(request, 'barkasse/home.html', cntx)
+class HomeView(LoginRequiredMixin, generic.ListView):
+    model = Transaction
+    queryset = Transaction.objects.order_by('-date')[:5]
+    template_name = 'barkasse/home.html'
 
 
 class TransactionList(LoginRequiredMixin, generic.ListView):
     model = Transaction
+    queryset = Transaction.objects.order_by('-date')
 
 
 class TransactionCreate(LoginRequiredMixin, CreateView):

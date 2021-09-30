@@ -2,10 +2,42 @@
 
 {% block content %}
 <h1>Willkommen</h1>
-<p>Was möchtest du tun?</p>
+
+
+
+<h2>Aktuelle Transaktionen</h2>
+  {% if transaction_list %}
+  <table class="table table-striped">
+  <tbody>
+    {% for transaction in transaction_list %}
+      <tr>
+        <td>
+          {{ transaction.date|date:'d.m.Y' }}
+        </td>
+        <td>
+          <strong>{{ transaction.shop }}</strong>
+        </td>
+        <td>
+          {{ transaction.title }}
+        </td>
+        <td>
+          {{ transaction.account }}
+        </td>
+        <td class="text-end">
+          {{ transaction.amount|floatformat:2 }}
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+    <p>Keine Transaktionen vorhanden.</p>
+  {% endif %}
+
+<h2>Was möchtest du tun?</h2>
 <ul>
   <li><a href="{% url 'barkasse:transaction_create' %}">Transaktion hinzufügen</a></li>
-  <li><a href="{% url 'barkasse:transactions' %}">Transaktionen Übersicht</a></li>
+  <li><a href="{% url 'barkasse:transactions' %}">Transaktionen bearbeiten</a></li>
   <li><a href="{% url 'barkasse:accounts' %}">Konten verwalten</a></li>
   <li><a href="{% url 'barkasse:shops' %}">Shops verwalten</a></li>
   <li><a href="{% url 'logout' %}">Ausloggen</a></li>
