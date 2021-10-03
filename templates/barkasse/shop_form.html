@@ -8,6 +8,6 @@
     {% csrf_token %}
     {{ form|crispy }}
     <input class="btn btn-primary" type="submit" value="Speichern">
-    <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:shops' %}' ; return false;" value="Abbrechen">
+    <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:shops' hh %}' ; return false;" value="Abbrechen">
   </form>
 {% endblock %}

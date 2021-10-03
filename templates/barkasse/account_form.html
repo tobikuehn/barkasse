@@ -9,6 +9,6 @@
     {{ form|crispy }}
     </table>
     <input class="btn btn-primary" type="submit" value="Speichern">
-    <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:accounts' %}' ; return false;" value="Abbrechen">
+    <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:accounts' hh %}' ; return false;" value="Abbrechen">
   </form>
 {% endblock %}

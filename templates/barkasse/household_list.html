@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Bitte wähle einen Haushalt</h1>
+  {% if household_list %}
+    {% for household in household_list %}
+      <a href="{% url 'barkasse:home' household.id %}" class="btn btn-primary btn-block" role="button">{{household.name}}</a>
+    {% endfor %}
+  {% else %}
+    <p>Kein Haushalt vorhanden. Wende dich an den Administrator.</p>
+  {% endif %}
+{% endblock %}

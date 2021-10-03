@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Transaktionen</h1>
+  <h1>{{ hh_name }} / Transaktionen</h1>
   {% if transaction_list %}
   <table class="table table-striped">
   <tbody>
@@ -33,8 +33,8 @@
           {{ transaction.amount|floatformat:2 }}
         </td>
         <td>
-          <a href="{% url 'barkasse:transaction_update' transaction.id %}">Update</a> |
-          <a href="{% url 'barkasse:transaction_delete' transaction.id %}">Delete</a>
+          <a href="{% url 'barkasse:transaction_update' hh transaction.id %}">Update</a> |
+          <a href="{% url 'barkasse:transaction_delete' hh transaction.id %}">Delete</a>
         </td>
       </tr>
     {% endfor %}
@@ -44,6 +44,6 @@
     <p>Keine Transaktionen vorhanden.</p>
   {% endif %}
   <p>
-    <a href="{% url 'barkasse:transaction_create' %}">Transaktion hinzufügen</a> | <a href="{% url 'barkasse:home' %}">Startseite</a>
+    <a href="{% url 'barkasse:transaction_create' hh %}">Transaktion hinzufügen</a> | <a href="{% url 'barkasse:home' hh %}">Startseite</a>
   </p>
 {% endblock %}

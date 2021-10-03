@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <h1>Shopliste</h1>
+  <h1>{{ hh_name }} / Shopliste</h1>
   {% if shop_list %}
   <table class="table table-striped">
   <tbody>
@@ -11,8 +11,8 @@
           {{ shop.name }}
         </td>
         <td>
-          <a href="{% url 'barkasse:shop_update' shop.id %}">Update</a> |
-          <a href="{% url 'barkasse:shop_delete' shop.id %}">Delete</a>
+          <a href="{% url 'barkasse:shop_update' hh shop.id %}">Update</a> |
+          <a href="{% url 'barkasse:shop_delete' hh shop.id %}">Delete</a>
         </td>
       </tr>
     {% endfor %}
@@ -22,6 +22,6 @@
     <p>Keine Shops vorhanden.</p>
   {% endif %}
   <p>
-    <a href="{% url 'barkasse:shop_create' %}">Shop hinzufügen</a> | <a href="{% url 'barkasse:home' %}">Startseite</a>
+    <a href="{% url 'barkasse:shop_create' hh %}">Shop hinzufügen</a> | <a href="{% url 'barkasse:home' hh%}">Startseite</a>
   </p>
 {% endblock %}

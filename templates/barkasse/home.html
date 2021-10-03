@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Barkasse</h1>
+<h1>Barkasse von {{ hh_name }} </h1>
 
 
 
@@ -35,12 +35,12 @@
     <p>Keine Transaktionen vorhanden.</p>
   {% endif %}
 
-<a href="{% url 'barkasse:transaction_create' %}" class="btn btn-primary btn-block" role="button">Transaktion hinzufügen</a>
+<a href="{% url 'barkasse:transaction_create' hh %}" class="btn btn-primary btn-block" role="button">Transaktion hinzufügen</a>
 
 <ul class="nav justify-content-center">
-  <li class="nav-item"><a href="{% url 'barkasse:transactions' %}" class="nav-link">Transaktionen</a></li>
-  <li class="nav-item"><a href="{% url 'barkasse:shops' %}" class="nav-link">Shops</a></li>
-  <li class="nav-item"><a href="{% url 'barkasse:accounts' %}" class="nav-link">Konten</a></li>
+  <li class="nav-item"><a href="{% url 'barkasse:transactions' hh %}" class="nav-link">Transaktionen</a></li>
+  <li class="nav-item"><a href="{% url 'barkasse:shops' hh %}" class="nav-link">Shops</a></li>
+  <li class="nav-item"><a href="{% url 'barkasse:accounts' hh %}" class="nav-link">Konten</a></li>
   <li class="nav-item"><a href="{% url 'logout' %}" class="nav-link">Ausloggen</a></li>
 </ul>
 

@@ -1,4 +1,5 @@
-from barkasse.models import Transaction, Shop, Account
+from barkasse.models import Transaction, Shop, Account, Household, Member
+from barkasse.household import HHListView, HHCreateView, HHUpdateView, HHDeleteView
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -11,76 +12,99 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
-class HomeView(LoginRequiredMixin, generic.ListView):
+class HouseholdList(LoginRequiredMixin, generic.ListView):
+    model = Household
+
+    def get_queryset(self):
+        return Household.objects.filter(member__user__id=1)
+
+
+class HomeView(HHListView):
     model = Transaction
-    queryset = Transaction.objects.order_by('-date')[:5]
+    queryset = Transaction.objects.order_by('-date')
     template_name = 'barkasse/home.html'
 
+    def get_queryset(self):
+        return super().get_queryset()[:5]
 
-class TransactionList(LoginRequiredMixin, generic.ListView):
+
+class TransactionList(HHListView):
     model = Transaction
     queryset = Transaction.objects.order_by('-date')
 
 
-class TransactionCreate(LoginRequiredMixin, CreateView):
+class TransactionCreate(HHCreateView):
     model = Transaction
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:home')
+    fields = ['shop','title','amount','account']
+    reverse_url = 'barkasse:transactions'
+
+    def get_form(self, *args, **kwargs):
+        form = super(TransactionCreate, self).get_form(*args, **kwargs)
+        form.fields['shop'].queryset = Shop.objects.filter(household=self.request.resolver_match.kwargs['hh'])
+        form.fields['account'].queryset = Account.objects.filter(household=self.request.resolver_match.kwargs['hh'])
+        return form
 
 
-class TransactionUpdate(LoginRequiredMixin, UpdateView):
+class TransactionUpdate(HHUpdateView):
     model = Transaction
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:home')
+    fields = ['shop','title','amount','account']
+    reverse_url = 'barkasse:transactions'
+
+    def get_form(self, *args, **kwargs):
+        form = super(TransactionUpdate, self).get_form(*args, **kwargs)
+        form.fields['shop'].queryset = Shop.objects.filter(household=self.request.resolver_match.kwargs['hh'])
+        form.fields['account'].queryset = Account.objects.filter(household=self.request.resolver_match.kwargs['hh'])
+        return form
 
 
-class TransactionDelete(LoginRequiredMixin, DeleteView):
+
+class TransactionDelete(HHDeleteView):
     model = Transaction
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:home')
+    reverse_url = 'barkasse:transactions'
 
 
-class ShopList(LoginRequiredMixin, generic.ListView):
+class ShopList(HHListView):
     model = Shop
 
 
-class ShopCreate(LoginRequiredMixin, CreateView):
+class ShopCreate(HHCreateView):
     model = Shop
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:shops')
+    fields = ['name']
+    reverse_url = 'barkasse:shops'
 
 
-class ShopUpdate(LoginRequiredMixin, UpdateView):
+class ShopUpdate(HHUpdateView):
     model = Shop
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:shops')
+    fields = ['name']
+    reverse_url = 'barkasse:shops'
 
 
-class ShopDelete(LoginRequiredMixin, DeleteView):
+class ShopDelete(HHDeleteView):
     model = Shop
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:shops')
+    fields = ['name']
+    reverse_url = 'barkasse:shops'
 
 
-class AccountList(LoginRequiredMixin, generic.ListView):
+class AccountList(HHListView):
     model = Account
 
 
-class AccountCreate(LoginRequiredMixin, CreateView):
+class AccountCreate(HHCreateView):
     model = Account
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:accounts')
+    fields = ['name', 'comment']
+    reverse_url = ('barkasse:accounts')
 
 
-class AccountUpdate(LoginRequiredMixin, UpdateView):
+class AccountUpdate(HHUpdateView):
     model = Account
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:accounts')
+    fields = ['name', 'comment']
+    reverse_url = ('barkasse:accounts')
 
 
-class AccountDelete(LoginRequiredMixin, DeleteView):
+class AccountDelete(HHDeleteView):
     model = Account
-    fields = '__all__'
-    success_url = reverse_lazy('barkasse:accounts')
+    fields = ['name', 'comment']
+    reverse_url=('barkasse:accounts')

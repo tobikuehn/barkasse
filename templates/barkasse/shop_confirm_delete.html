@@ -9,6 +9,8 @@
 <form action="" method="POST">
   {% csrf_token %}
   <input class="btn btn-primary" type="submit" value="Ja, löschen.">
+  <input class="btn btn-secondary" type="submit" onclick="window.location='{% url 'barkasse:shops' hh %}' ; return false;" value="Abbrechen">
+
 </form>
 
 {% endblock %}
