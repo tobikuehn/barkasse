@@ -19,7 +19,8 @@ class HouseholdList(LoginRequiredMixin, generic.ListView):
     model = Household
 
     def get_queryset(self):
-        return Household.objects.filter(member__user__id=1)
+        return Household.objects.filter(member__user=self.request.user)
+
 
 
 class HomeView(HHListView):
@@ -34,6 +35,7 @@ class HomeView(HHListView):
 class TransactionList(HHListView):
     model = Transaction
     queryset = Transaction.objects.order_by('-date')
+    paginate_by = 10
 
 
 class TransactionCreate(HHCreateView):

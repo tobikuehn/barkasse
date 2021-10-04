@@ -11,7 +11,7 @@ class Household(models.Model):
 
 class Transaction(models.Model):
     """A transaction of money"""
-    title = models.CharField(max_length=100, null=True, verbose_name="Bezeichnung")
+    title = models.CharField(max_length=100, null=True, blank=True, verbose_name="Bezeichnung")
     amount = models.FloatField(verbose_name="Betrag")
     shop = models.ForeignKey('Shop', on_delete=models.SET_NULL, null=True)
     account = models.ForeignKey('Account', on_delete=models.CASCADE, verbose_name="Konto")
@@ -35,7 +35,7 @@ class Shop(models.Model):
 class Account(models.Model):
     """A bank account of an user we use to pay"""
     name = models.CharField(max_length=100, verbose_name="Konto")
-    comment = models.TextField(null=True, verbose_name="Bemerkungen")
+    comment = models.TextField(null=True, blank=True, verbose_name="Bemerkungen")
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
 
 
