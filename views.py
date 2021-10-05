@@ -1,5 +1,7 @@
+import csv
+
 from barkasse.models import Transaction, Shop, Account, Household, Member
-from barkasse.household import HHListView, HHCreateView, HHUpdateView, HHDeleteView
+from barkasse.household import HHListView, HHCreateView, HHUpdateView, HHDeleteView, HHMixin
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -13,6 +15,58 @@ from django.shortcuts import render
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.conf import settings
+from django.shortcuts import redirect
+from django.db.models.functions import TruncMonth
+from django.db.models import Count
+
+def export_csv_view(request, hh, year, month):
+    # Create the HttpResponse object with the appropriate CSV header.
+
+    if not request.user.is_authenticated:
+        return redirect('%s?next=%s' % (settings.LOGIN_URL, reverse_lazy('barkasse:home', args=[hh])))
+    elif Member.objects.filter(household=hh, user=request.user):
+        response = HttpResponse(
+            content_type='text/csv',
+            headers={'Content-Disposition': 'attachment; filename="export.csv"'},
+        )
+
+        transactions = Transaction.objects.filter(household=hh).filter(date__year=year,
+                      date__month=month)
+
+        writer = csv.writer(response)
+        writer.writerow(['Date', 'Description', 'ContraAccount', 'Account', 'Amount'])
+
+        for tr in transactions:
+            writer.writerow([tr.date.strftime("%Y-%m-%d"), tr.shop.name + ": " + tr.title, tr.account.number, 4000, tr.amount])
+
+        return response
+    else:
+        return redirect(reverse_lazy('barkasse:households'))
+
+
+class ExportView(HHMixin, generic.TemplateView):
+    template_name = 'barkasse/export.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['hh'] = self.request.resolver_match.kwargs['hh']
+        context['hh_name'] = Household.objects.get(id=self.request.resolver_match.kwargs['hh'])
+
+        transactions = Transaction.objects.filter(household=self.request.resolver_match.kwargs['hh']).annotate(month=TruncMonth('date')).values('month').annotate(c=Count('id')).values('month', 'c')
+
+        links = []
+
+        for tr in transactions:
+            link = {'url': reverse_lazy('barkasse:export_csv', args=[self.request.resolver_match.kwargs['hh'], tr['month'].strftime("%Y"), tr['month'].strftime("%m")]),
+                    'count': tr['c'],
+                    'month': tr['month'].strftime("%B"),
+                    'year': tr['month'].strftime("%Y")}
+            links.append(link)
+
+        context['links'] = links
+
+        return context
 
 
 class HouseholdList(LoginRequiredMixin, generic.ListView):
@@ -96,17 +150,17 @@ class AccountList(HHListView):
 
 class AccountCreate(HHCreateView):
     model = Account
-    fields = ['name', 'comment']
+    fields = ['name', 'comment', 'number']
     reverse_url = ('barkasse:accounts')
 
 
 class AccountUpdate(HHUpdateView):
     model = Account
-    fields = ['name', 'comment']
+    fields = ['name', 'comment', 'number']
     reverse_url = ('barkasse:accounts')
 
 
 class AccountDelete(HHDeleteView):
     model = Account
-    fields = ['name', 'comment']
+    fields = ['name', 'comment', 'number']
     reverse_url=('barkasse:accounts')

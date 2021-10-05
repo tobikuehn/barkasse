@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>{{ hh_name }} / Transaktionen exportieren</h1>
+
+ {% if links %}
+  <table class="table table-striped">
+  <tbody>
+   {% for link in links %}
+      <tr>
+        <td>
+          <a href="{{ link.url }}">{{ link.count }} Transaktionen vom {{ link.month }} {{ link.year }}</a>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+    <p>Keine Transaktionen zum Exportieren vorhanden.</p>
+  {% endif %}
+  <p>
+    <a href="{% url 'barkasse:home' hh %}">Startseite</a>
+  </p>
+{% endblock %}

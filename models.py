@@ -35,6 +35,7 @@ class Shop(models.Model):
 class Account(models.Model):
     """A bank account of an user we use to pay"""
     name = models.CharField(max_length=100, verbose_name="Konto")
+    number = models.PositiveIntegerField(null=True, blank=True, verbose_name="Kontonummer")
     comment = models.TextField(null=True, blank=True, verbose_name="Bemerkungen")
     household = models.ForeignKey(Household, on_delete=models.CASCADE)
 

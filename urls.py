@@ -19,4 +19,6 @@ urlpatterns = [
     path('<int:hh>/account/create/', views.AccountCreate.as_view(), name='account_create'),
     path('<int:hh>/account/<int:pk>/update/', views.AccountUpdate.as_view(), name='account_update'),
     path('<int:hh>/account/<int:pk>/delete/', views.AccountDelete.as_view(), name='account_delete'),
+    path('<int:hh>/export/', views.ExportView.as_view(), name='export'),
+    path('<int:hh>/export/<int:year>/<int:month>', views.export_csv_view, name='export_csv'),
 ]
