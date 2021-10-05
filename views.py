@@ -35,7 +35,7 @@ def export_csv_view(request, hh, year, month):
                       date__month=month)
 
         writer = csv.writer(response)
-        writer.writerow(['Date', 'Description', 'ContraAccount', 'Account', 'Amount'])
+        writer.writerow(['Date', 'Description', 'Account', 'Expenses'])
 
         for tr in transactions:
             if tr.title:
@@ -43,7 +43,7 @@ def export_csv_view(request, hh, year, month):
             else:
                 text = tr.shop.name
 
-            writer.writerow([tr.date.strftime("%Y-%m-%d"), text, tr.account.number, 4000, tr.amount])
+            writer.writerow([tr.date.strftime("%Y-%m-%d"), text, tr.account.number, tr.amount])
 
         return response
     else:
