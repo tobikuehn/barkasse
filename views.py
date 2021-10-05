@@ -38,7 +38,12 @@ def export_csv_view(request, hh, year, month):
         writer.writerow(['Date', 'Description', 'ContraAccount', 'Account', 'Amount'])
 
         for tr in transactions:
-            writer.writerow([tr.date.strftime("%Y-%m-%d"), tr.shop.name + ": " + tr.title, tr.account.number, 4000, tr.amount])
+            if tr.title:
+                text = tr.shop.name + ": " + tr.title
+            else:
+                text = tr.shop.name
+
+            writer.writerow([tr.date.strftime("%Y-%m-%d"), text, tr.account.number, 4000, tr.amount])
 
         return response
     else:
